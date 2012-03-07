@@ -13,10 +13,23 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path'       => __DIR__.'/views',
   'twig.class_path' => __DIR__.'/vendor/twig/lib',
 ));
-
+$app->register(new Silex\Provider\ValidatorServiceProvider(), array(
+  'validator.class_path'    => __DIR__.'/vendor/symfony/src',
+));
+$app->register(new Silex\Provider\FormServiceProvider(), array(
+  'form.class_path' => __DIR__ . '/vendor/symfony/src'
+));
 
 $app->get('/{url}', function() use($app) { 
-  return $app['twig']->render('home.twig');
+  $form = $app['form']->createFormBuilder()
+    ->add('username','text')
+    ->add('password','password')
+    ->add('bookmarks','file')
+    ->getForm()->createView();
+
+  return $app['twig']->render('home.twig', array(
+    'form' => $form
+  ));
 })->assert('url','.*'); 
 
 
