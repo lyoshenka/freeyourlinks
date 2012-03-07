@@ -1,5 +1,8 @@
 <?php
 
+phpinfo();
+die();
+
 require_once __DIR__.'/silex.phar'; 
 
 $app = new Silex\Application(); 
