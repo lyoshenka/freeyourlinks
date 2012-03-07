@@ -2,4 +2,5 @@ body
 {
   width: 940px;
   margin: 0 auto;
+  background: url('/assets/img/background.png') repeat center center;
 }
