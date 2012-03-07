@@ -21,11 +21,13 @@ $app->register(new Silex\Provider\FormServiceProvider(), array(
 ));
 
 $app->get('/{url}', function() use($app) { 
-  $form = $app['form']->createFormBuilder()
+  $form = $app['form.factory']
+    ->createBuilder('form')
     ->add('username','text')
     ->add('password','password')
     ->add('bookmarks','file')
-    ->getForm()->createView();
+    ->getForm()
+    ->createView();
 
   return $app['twig']->render('home.twig', array(
     'form' => $form
