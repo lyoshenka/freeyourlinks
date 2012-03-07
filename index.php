@@ -19,6 +19,9 @@ $app->register(new Silex\Provider\ValidatorServiceProvider(), array(
 $app->register(new Silex\Provider\FormServiceProvider(), array(
   'form.class_path' => __DIR__ . '/vendor/symfony/src'
 ));
+$app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
+  'symfony_bridges.class_path'  => __DIR__.'/vendor/symfony/src',
+));
 
 $app->get('/{url}', function() use($app) { 
   $form = $app['form.factory']
