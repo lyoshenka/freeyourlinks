@@ -23,11 +23,8 @@ $app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
   'symfony_bridges.class_path'  => __DIR__.'/vendor/symfony/src',
 ));
 
-$app->post('/file', function() use($app) {
-  
-});
-
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $app->match('/', function(Request $request) use($app) { 
   $form = $app['form.factory']
@@ -37,17 +34,25 @@ $app->match('/', function(Request $request) use($app) {
 
   if ($request->getMethod() == 'POST')
   {
-    // bind form
+    $form->bindRequest($request);
     if ($form->isValid())
     {
-      $filename = $form['bookmarks']->getData(); // get filename and convert it
+      $filename = 'uploads/'.rand();
+      $file = $form['bookmarks']->getData()->move($filename);
+      $links = convertXml($filename);
+      unlink($filename);
+
+      return new Response($app['twig']->render('file.twig', array('links' => $links)), 200, array(
+        'Content-Type' => 'text/html', 
+        'Content-Disposition' => 'attachment;filename=upload_to_pinboard.html',
+      ));
     }
   }
 
   return $app['twig']->render('home.twig', array(
     'form' => $form->createView()
   ));
-}); 
+})->method('GET|POST'); 
 
 $app->match('/{url}', function() use($app) {
   return $app->redirect('/');
@@ -73,7 +78,7 @@ function convertXml($filename)
       'name' => $bookmark->title->__toString()
     );
   }
-  return $app['twig']->render('file.twig', array('links' => $links));
+  return $links;
 }
 
 $app->run(); 
