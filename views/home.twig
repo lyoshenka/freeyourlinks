@@ -1,12 +1,25 @@
 {% extends 'layout.twig' %}
 
 {% block content %}
-  <div class="hero-unit">
     <h1>Google -> Pinboard</h1>
     <p>Import your Google Bookmarks into Pinboard in 3 easy steps</p>
     <p><a class="btn btn-primary btn-large">Do it &raquo;</a></p>
+
+  <div>
+    Step 1. Go to the url and get the file
   </div>
 
-  {{ form_widget(form) }}
+  <div>
+    Step 2. Use this form to convert the file.
+    <form action="/" method="post" {{ form_enctype(form) }}>
+      {{ form_widget(form) }}
+
+      <input type=submit class="btn btn-large btn-primary">Submit</input>
+    </form>
+  </div>
+
+  <div>
+    Step 3. Import the new file into Pinboard
+  </div>
 
 {% endblock %}

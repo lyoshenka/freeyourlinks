@@ -23,19 +23,57 @@ $app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
   'symfony_bridges.class_path'  => __DIR__.'/vendor/symfony/src',
 ));
 
-$app->get('/{url}', function() use($app) { 
+$app->post('/file', function() use($app) {
+  
+});
+
+use Symfony\Component\HttpFoundation\Request;
+
+$app->match('/', function(Request $request) use($app) { 
   $form = $app['form.factory']
     ->createBuilder('form')
-    ->add('username','text')
-    ->add('password','password')
     ->add('bookmarks','file')
-    ->getForm()
-    ->createView();
+    ->getForm();
+
+  if ($request->getMethod() == 'POST')
+  {
+    // bind form
+    if ($form->isValid())
+    {
+      $filename = $form['bookmarks']->getData(); // get filename and convert it
+    }
+  }
 
   return $app['twig']->render('home.twig', array(
-    'form' => $form
+    'form' => $form->createView()
   ));
-})->assert('url','.*'); 
+}); 
 
+$app->match('/{url}', function() use($app) {
+  return $app->redirect('/');
+})->assert('url','.*');
+
+
+function convertXml($filename)
+{
+  $xml = simplexml_load_file($filename);
+  $links = array();
+  foreach ($xml->bookmarks->bookmark as $bookmark)
+  {
+    $labels = array();
+    foreach($bookmark->labels->label as $label)
+    {
+      $labels[] = str_replace(' ', '-', $label);
+    }
+
+    $links[] = array(
+      'href' => $bookmark->url->__toString(),
+      'date' => substr($bookmark->timestamp,0,-6),
+      'tags' => implode(',', $labels),
+      'name' => $bookmark->title->__toString()
+    );
+  }
+  return $app['twig']->render('file.twig', array('links' => $links));
+}
 
 $app->run(); 
