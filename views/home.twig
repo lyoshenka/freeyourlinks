@@ -18,10 +18,10 @@
       <h3>Step 2</h3>
       <p>Use this form to convert the file.</p>
       <form action="/" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <div class="form-actions">
-          <button type=submit class="btn btn-primary">Convert</input>
-        </div>
+        {{ form_errors(form) }}
+        {{ form_widget(form.bookmarks) }}
+        {{ form_rest(form) }}
+        <button type=submit class="btn btn-primary">Convert</input>
       </form>
     </div>
   
