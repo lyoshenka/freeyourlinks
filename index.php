@@ -37,14 +37,8 @@ $app->match('/', function(Request $request) use($app) {
     $form->bindRequest($request);
     if ($form->isValid())
     {
-      $filename = 'uploads/'.rand();
       $file = $form['bookmarks']->getData();
-      var_export($_FILES);
-      var_export($file);
-      convertXml($file->getClientOriginalName());
-      $file->move($filename);
-      $links = convertXml($filename);
-      unlink($filename);
+      $links = convertXml($_FILES['form']['tmp_name']['bookmarks']);
 
       return new Response($app['twig']->render('file.twig', array('links' => $links)), 200, array(
         'Content-Type' => 'text/html', 
