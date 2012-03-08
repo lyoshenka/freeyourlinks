@@ -38,8 +38,11 @@ $app->match('/', function(Request $request) use($app) {
     if ($form->isValid())
     {
       $filename = 'uploads/'.rand();
-      var_export($form['bookmarks']->getData());
-      $file = $form['bookmarks']->getData()->move($filename);
+      $file = $form['bookmarks']->getData();
+      var_export($_FILES);
+      var_export($file);
+      convertXml($file->getClientOriginalName());
+      $file->move($filename);
       $links = convertXml($filename);
       unlink($filename);
 
