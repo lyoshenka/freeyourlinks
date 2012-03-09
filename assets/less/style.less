@@ -18,16 +18,15 @@ body {
 div.top
 {
   margin-bottom: 20px;
-  h1 
-  {
-    font-size: 2.25em;
-  }
+  h1 { font-size: 2.25em; }
+  p { color: @gray; }
 }
 
 footer p
 {
   float: right;
-  font-size: 0.825em;
+  font-size: 0.875em;
+  color: @grayLight;
 }
 
 hr
@@ -36,5 +35,20 @@ hr
   border-bottom-color: @grayLighter;
 }
 
-@import "bootstrap/responsive.less";
+.file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.file-wrapper input {
+  cursor: pointer;
+  font-size: 100px;
+  height: 100%;
+  .opacity(0.01);
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
+@import "bootstrap/responsive.less";

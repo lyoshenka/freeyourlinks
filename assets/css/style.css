@@ -5448,13 +5448,35 @@ div.top {
 div.top h1 {
   font-size: 2.25em;
 }
+div.top p {
+  color: #555555;
+}
 footer p {
   float: right;
-  font-size: 0.825em;
+  font-size: 0.875em;
+  color: #999999;
 }
 hr {
   border-top-color: #999999;
   border-bottom-color: #eeeeee;
+}
+.file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.file-wrapper input {
+  cursor: pointer;
+  font-size: 100px;
+  height: 100%;
+  opacity: 0.0001;
+  filter: alpha(opacity=0.01);
+  opacity: 0.0001;
+  filter: alpha(opacity=0.01);
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 /*!
  * Bootstrap Responsive v2.0.1

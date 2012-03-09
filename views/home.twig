@@ -24,9 +24,12 @@
         <p>Convert that file to the Delicious/Pinboard format.</p>
         <form action="/" method="post" {{ form_enctype(form) }}>
           {{ form_errors(form) }}
-          {{ form_widget(form.bookmarks) }}
+          <span class="file-wrapper">
+            {{ form_widget(form.bookmarks) }}
+            <span class="btn btn-primary">Choose File</span>
+          </span>
           {{ form_rest(form) }}
-          <button type=submit class="btn btn-primary">Convert</input>
+          {#<button type=submit class="btn btn-primary">Convert</input>#}
         </form>
       </div>
     </div>
