@@ -1,7 +1,5 @@
 <?php
 
-ini_set('session.save_path','tmp/');
-
 //$phar = new Phar('silex.phar');
 //$phar->extractTo('./silex'); // extract all files
 
@@ -21,7 +19,9 @@ $app->register(new Silex\Provider\FormServiceProvider(), array(
 $app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
   'symfony_bridges.class_path'  => __DIR__.'/vendor/symfony/src',
 ));
-$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\SessionServiceProvider(), array(
+  'session.save_path' => __DIR__.'/tmp'
+));
 
 
 use Symfony\Component\HttpFoundation\Request;
