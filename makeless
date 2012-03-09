@@ -1,0 +1,3 @@
+#!/bin/bash
+
+node ../less.js/bin/lessc assets/less/style.less > assets/css/style.css

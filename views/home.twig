@@ -2,33 +2,39 @@
 
 {% block content %}
   
-  <div class="hero-unit">
-    <h1>Google -> Pinboard</h1>
-    <p>Import your Google Bookmarks into Pinboard in 3 easy steps</p>
+  <div class="top">
+    <h1 class="main_title">Import your Google Bookmarks into Pinboard</h1>
+    <p>I switched to Pinboard recently and wanted to bring my Google Bookmarks with me. Turns out Google won't let you export your bookmarks with tags and timestamps intact. But with a bit of magic, now you can.</p>
   </div>
 
   <div class="row-fluid">
     <div class="span4">
-      <h3>Step 1</h3>
-      <p>
-        Click this link to download a file with your google bookmarks: <a href="http://www.google.com/bookmarks/?output=xml&num=100000">download</a>.
-      </p>
+      <div class="well">
+        <h2>1. Save</h3>
+        <p>Right-click the link below and choose "Save as" to save your bookmarks.</p>
+        <p><a href="http://www.google.com/bookmarks/?output=xml&num=100000">Google Bookmarks</a></p>
+      </div>
     </div>
 
     <div class="span4">
-      <h3>Step 2</h3>
-      <p>Use this form to convert the file.</p>
-      <form action="/" method="post" {{ form_enctype(form) }}>
-        {{ form_errors(form) }}
-        {{ form_widget(form.bookmarks) }}
-        {{ form_rest(form) }}
-        <button type=submit class="btn btn-primary">Convert</input>
-      </form>
+      <div class="well">
+        <h2>2. Convert</h2>
+        <p>Convert the file to Pinboard's format.</p>
+        <form action="/" method="post" {{ form_enctype(form) }}>
+          {{ form_errors(form) }}
+          {{ form_widget(form.bookmarks) }}
+          {{ form_rest(form) }}
+          <button type=submit class="btn btn-primary">Convert</input>
+        </form>
+      </div>
     </div>
   
     <div class="span4">
-      <h3>Step 3</h3>
-      <p>Import the new file here: <a href="https://pinboard.in/settings/import">Pinboard Import</a>.</p>
+      <div class="well">
+        <h2>3. Import</h2>
+        <p>Import the converted file.</p>
+        <p><a href="https://pinboard.in/settings/import">Pinboard Import</a></p>
+      </div>
     </div>
   </div>
 {% endblock %}

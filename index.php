@@ -44,7 +44,7 @@ $app->match('/', function(Request $request) use($app) {
 
       return new Response($app['twig']->render('file.twig', array('links' => $links)), 200, array(
         'Content-Type' => 'text/html', 
-        'Content-Disposition' => 'attachment;filename=upload_to_pinboard.html',
+        'Content-Disposition' => 'attachment;filename=pinboard_import.html',
       ));
     }
   }
