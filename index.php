@@ -13,32 +13,34 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path'       => __DIR__.'/views',
   'twig.class_path' => __DIR__.'/vendor/twig/lib',
 ));
-//$app->register(new Silex\Provider\ValidatorServiceProvider(), array(
-//  'validator.class_path'    => __DIR__.'/vendor/symfony/src',
-//));
 $app->register(new Silex\Provider\FormServiceProvider(), array(
   'form.class_path' => __DIR__ . '/vendor/symfony/src'
 ));
 $app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
   'symfony_bridges.class_path'  => __DIR__.'/vendor/symfony/src',
 ));
+$app->register(new Silex\Provider\SessionServiceProvider());
+
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $app->match('/', function(Request $request) use($app) { 
   $form = $app['form.factory']->createBuilder('form')->add('bookmarks','file')->getForm();
+  $formError = false;
 
   if ($request->getMethod() == 'POST')
   {
     $form->bindRequest($request);
     if ($form->isValid())
     {
-      if (! $form['bookmarks']->getData()->isValid())
+      if (!$form['bookmarks']->getData() || !$form['bookmarks']->getData()->isValid())
       {
-        // problem uploading file
-        // redirect
+        $formError = true;
+        $app['session']->setFlash('error', 'Error uploading file.');
+        return $app->redirect('/');
       }
+
       $file = $form['bookmarks']->getData();
       $links = convertXml($_FILES['form']['tmp_name']['bookmarks']);
 
