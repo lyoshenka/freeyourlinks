@@ -25,7 +25,7 @@
         <form action="/" method="post" {{ form_enctype(form) }}>
           {{ form_errors(form) }}
           <span class="file-wrapper">
-            {{ form_widget(form.bookmarks) }}
+            {{ form_widget(form.bookmarks, {'attr': { 'id': 'megainput' } }) }}
             <span class="btn btn-primary">Choose File</span>
           </span>
           {{ form_rest(form) }}
