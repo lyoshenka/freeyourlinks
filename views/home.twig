@@ -3,8 +3,8 @@
 {% block content %}
   
   <div class="top">
-    <h1 class="main_title">Import your Google Bookmarks into Pinboard</h1>
-    <p>I switched to Pinboard recently and wanted to bring my Google Bookmarks with me. Turns out Google won't let you export your bookmarks with tags and timestamps intact. But with a bit of magic, now you can.</p>
+    <h1>Free Your Google Bookmarks</h1>
+    <p>I switched to <a href="https://pinboard.in">Pinboard</a> recently and wanted to bring my Google Bookmarks with me. Turns out Google won't let you export your bookmarks with tags and timestamps intact. But with a bit of magic, now you can.</p>
   </div>
 
   {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.getFlash('error') }}</div>{% endif %}
@@ -21,7 +21,7 @@
     <div class="span4">
       <div class="well">
         <h2>2. Convert</h2>
-        <p>Convert the file to Pinboard's format.</p>
+        <p>Convert that file to the Delicious/Pinboard format.</p>
         <form action="/" method="post" {{ form_enctype(form) }}>
           {{ form_errors(form) }}
           {{ form_widget(form.bookmarks) }}
@@ -35,7 +35,8 @@
       <div class="well">
         <h2>3. Import</h2>
         <p>Import the converted file.</p>
-        <p><a href="https://pinboard.in/settings/import">Pinboard Import</a></p>
+        <p><a href="https://pinboard.in/settings/import">Pinboard</a></p>
+        <p><a href="http://export.delicious.com/settings/bookmarks/import">Delicious</a></p>
       </div>
     </div>
   </div>
