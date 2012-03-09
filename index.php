@@ -1,5 +1,7 @@
 <?php
 
+ini_set('session.save_path','tmp/');
+
 //$phar = new Phar('silex.phar');
 //$phar->extractTo('./silex'); // extract all files
 
