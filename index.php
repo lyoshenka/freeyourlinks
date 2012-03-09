@@ -35,10 +35,9 @@ $app->match('/', function(Request $request) use($app) {
     $form->bindRequest($request);
     if ($form->isValid())
     {
-      if (!$form['bookmarks']->getData() || !$form['bookmarks']->getData()->isValid())
+      if (!is_object($form['bookmarks']->getData()) || !$form['bookmarks']->getData()->isValid())
       {
-        $app['session']->setFlash('error', 'Error uploading file.');
-        return $app->redirect('/');
+        return doError($app, 'Error uploading file.');
       }
 
       $file = $form['bookmarks']->getData();
@@ -60,6 +59,11 @@ $app->match('/{url}', function() use($app) {
   return $app->redirect('/');
 })->assert('url','.*');
 
+function doError($app, $errorMsg)
+{
+  $app['session']->setFlash('error', $errorMsg);
+  return $app->redirect('/');
+}
 
 function convertXml($filename)
 {
