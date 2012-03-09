@@ -42,6 +42,11 @@ $app->match('/', function(Request $request) use($app) {
 
       $file = $form['bookmarks']->getData();
       $links = convertXml($_FILES['form']['tmp_name']['bookmarks']);
+      
+      if ($links === null)
+      {
+        return doError($app, 'Error processing file.');
+      }
 
       return new Response($app['twig']->render('file.twig', array('links' => $links)), 200, array(
         'Content-Type' => 'text/html', 
@@ -67,6 +72,7 @@ function doError($app, $errorMsg)
 
 function convertXml($filename)
 {
+  libxml_use_internal_errors(true);
   $xml = simplexml_load_file($filename);
   $links = array();
   foreach ($xml->bookmarks->bookmark as $bookmark)
@@ -84,6 +90,13 @@ function convertXml($filename)
       'name' => $bookmark->title->__toString()
     );
   }
+
+  $errors = libxml_get_errors();
+  if (count($errors))
+  {
+    return null;
+  }
+
   return $links;
 }
 
