@@ -20,7 +20,7 @@ $app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
   'symfony_bridges.class_path'  => __DIR__.'/vendor/symfony/src',
 ));
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
-  'session.save_path' => __DIR__.'/tmp'
+  'session.storage.save_path' => __DIR__.'/tmp'
 ));
 
 
@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 $app->match('/', function(Request $request) use($app) { 
   $form = $app['form.factory']->createBuilder('form')->add('bookmarks','file')->getForm();
-  $formError = false;
 
   if ($request->getMethod() == 'POST')
   {
@@ -38,7 +37,6 @@ $app->match('/', function(Request $request) use($app) {
     {
       if (!$form['bookmarks']->getData() || !$form['bookmarks']->getData()->isValid())
       {
-        $formError = true;
         $app['session']->setFlash('error', 'Error uploading file.');
         return $app->redirect('/');
       }

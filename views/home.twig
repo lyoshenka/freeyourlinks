@@ -10,7 +10,6 @@
   {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.getFlash('error') }}</div>{% endif %}
     
   <div class="row-fluid">
-    {% if app.session.getFlash('formError') %}<div class="alert">Error uploading file</div>{% endif %}
     <div class="span4">
       <div class="well">
         <h2>1. Save</h3>
