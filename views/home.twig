@@ -7,7 +7,7 @@
     <p>I switched to <a href="https://pinboard.in">Pinboard</a> recently and wanted to bring my Google Bookmarks with me. Turns out Google won't let you export your bookmarks with tags and timestamps intact. But with a bit of magic, now you can.</p>
   </div>
 
-  {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.getFlash('error') }}</div>{% endif %}
+  {% if app.session.hasFlash('error') %}<div class="alert alert-error">{{ app.session.getFlash('error') }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>{% endif %}
     
   <div class="row-fluid">
     <div class="span4">
@@ -25,7 +25,7 @@
         <form action="/" method="post" {{ form_enctype(form) }}>
           {{ form_errors(form) }}
           <span class="file-wrapper">
-            {{ form_widget(form.bookmarks, {'attr': { 'id': 'megainput' } }) }}
+            {{ form_widget(form.bookmarks) }}
             <span class="btn btn-primary">Choose File</span>
           </span>
           {{ form_rest(form) }}
