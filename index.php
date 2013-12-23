@@ -1,12 +1,8 @@
 <?php
 
-//$phar = new Phar('silex.phar');
-//$phar->extractTo('./silex'); // extract all files
-
-//require_once __DIR__.'/silex.phar'; 
 require_once __DIR__ . '/vendor/silex/vendor/.composer/autoload.php';
 
-$app = new Silex\Application(); 
+$app = new Silex\Application();
 $app['debug'] = true;
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
@@ -27,8 +23,17 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$app->match('/', function(Request $request) use($app) { 
-  $form = $app['form.factory']->createBuilder('form')->add('bookmarks','file')->getForm();
+$app->match('/', function(Request $request) use($app) {
+  $form = $app['form.factory']->createBuilder('form')
+    ->add('bookmarks','file')
+    ->add('tags', 'choice', array(
+      'choices' => array('dotags' => 'Include Tags'),
+      'required' => false,
+      'multiple' => true,
+      'expanded' => true,
+      'data' => array('dotags')
+    ))
+    ->getForm();
 
   if ($request->getMethod() == 'POST')
   {
@@ -41,15 +46,16 @@ $app->match('/', function(Request $request) use($app) {
       }
 
       $file = $form['bookmarks']->getData();
-      $links = convertXml($_FILES['form']['tmp_name']['bookmarks']);
-      
+      $doTags = count($form['tags']->getData()) == 1;
+      $links = convertXml($_FILES['form']['tmp_name']['bookmarks'], $doTags);
+
       if ($links === null)
       {
         return doError($app, 'Error processing file.');
       }
 
       return new Response($app['twig']->render('file.twig', array('links' => $links)), 200, array(
-        'Content-Type' => 'text/html', 
+        'Content-Type' => 'text/html',
         'Content-Disposition' => 'attachment;filename=pinboard_import.html',
       ));
     }
@@ -58,7 +64,7 @@ $app->match('/', function(Request $request) use($app) {
   return $app['twig']->render('home.twig', array(
     'form' => $form->createView()
   ));
-})->method('GET|POST'); 
+})->method('GET|POST');
 
 $app->match('/{url}', function() use($app) {
   return $app->redirect('/');
@@ -70,7 +76,7 @@ function doError($app, $errorMsg)
   return $app->redirect('/');
 }
 
-function convertXml($filename)
+function convertXml($filename, $doTags)
 {
   libxml_use_internal_errors(true);
   $xml = simplexml_load_file($filename);
@@ -86,7 +92,7 @@ function convertXml($filename)
     $links[] = array(
       'href' => $bookmark->url->__toString(),
       'date' => substr($bookmark->timestamp,0,-6),
-      'tags' => implode(',', $labels),
+      'tags' => ($doTags ? implode(',', $labels) : ''),
       'name' => $bookmark->title->__toString()
     );
   }
@@ -100,4 +106,4 @@ function convertXml($filename)
   return $links;
 }
 
-$app->run(); 
+$app->run();
