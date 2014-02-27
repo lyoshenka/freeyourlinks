@@ -84,9 +84,12 @@ function convertXml($filename, $doTags)
   foreach ($xml->bookmarks->bookmark as $bookmark)
   {
     $labels = array();
-    foreach($bookmark->labels->label as $label)
+    if ($bookmark->labels && $bookmark->labels->label) 
     {
-      $labels[] = str_replace(' ', '-', $label);
+      foreach($bookmark->labels->label as $label)
+      {
+        $labels[] = str_replace(' ', '-', $label);
+      }
     }
 
     $links[] = array(
