@@ -1,1 +1,11 @@
-{}
+{
+  "name": "lyoshenka/freeyourlinks",
+  "license": "WTFPL",
+  "minimum-stability": "stable",
+  "config": {
+    "vendor-dir": "vendor/composer"
+  },
+  "require": {
+    "php": "~5.6"
+  }
+}
